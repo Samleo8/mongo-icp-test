@@ -1,4 +1,4 @@
-# MongoDB Test
+# MongoDB Test for IBM Cloud Private
 
 This is a test client app that attempts to communicate with the MongoDB service/server in the IBM Private Cloud.
 
@@ -11,8 +11,8 @@ Once all is setup, to start the server, type `npm start`. The password will be a
 ## Database Setup
 
 There seems to be 2 methods to setup the MongoDB service on IBM Cloud Private:
- - GUI
- - Command Line
+ - [GUI](#gui-method)
+ - [Command Line](#command-line)
 
 ### GUI Method
 First find out where you IBM web console is. If you used the Vagrant setup, it should be in the output with the "happy dance".
@@ -21,21 +21,21 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 1. Login with your username and password, as set in the `Vagrantfile`
 
-[Login Screen](screenshots/setup1.png)
+![Login Screen](screenshots/setup1.png)
 
 2. Once in, click the **Catalog** button on the top right corner of the page. This will lead you to a Catalog page containing all the included Helm repositories. Search for "*mongodb*" and click on the repository named **ibm-mongodb-dev**
 
-[Catalog](screenshots/setup2.png)
+![Catalog](screenshots/setup2.png)
 
 3. You will then be able to configure the MongoDB dev service. Give it a release name (in my case it is *test*), a target namespace (*default* is fine), and check the necessary boxes.
 
-[MongoDB Service Setup](screenshots/setup3.png)
+![MongoDB Service Setup](screenshots/setup3.png)
 
 4. We need to make sure that the MongoDB service is accessible outside of the Master node (i.e. an external client must be able to access it). Thus, we need to make sure that the configuration is set as **NodePort** and **NOT** *ClusterIP*.
 
 To do this, click **Parameters** > *All Parameters* and then scroll down to the part that says **Service configuration** and make sure that **Service Type** is set to **NodePort**. Refer to the screenshot below:
 
-[Service configuration](screenshots/setup4.png)
+![Service configuration](screenshots/setup4.png)
 
 5. Click **Install** and you should be done! You can now click on the popup to view your release.
 
@@ -47,6 +47,9 @@ Depending on what you put as the release name (it is `test` by default), you hav
 For example, if your release name is `mydb` (mine is `test`), replace all occurences of `test-ibm-mongodb-dev` with `mydb-ibm-mongodb-dev`. If you changed the namespace, you will need to change it from `default` to something else as well.
 
 Alternatively, just replace the `start` command with whatever is shown when you view `ibm-mongodb-dev` in the *Services* tab.
+
+### Command Line
+*Sorry, I haven't figured this out yet; I keep getting weird errors.*
 
 ## References
 
