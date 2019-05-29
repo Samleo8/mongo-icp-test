@@ -56,7 +56,7 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 ### Overall Management
 
-1. To manage your MongoDB service, click the hamburger menu in the top left corner, and go to **Network Access** > **Services**
+1. To manage your MongoDB service, click the hamburger menu in the top left corner, and go to **Workloads** > **Helm Releases**
 
 ![Service configuration](screenshots/managing1.png)
 
@@ -72,9 +72,11 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 ### Deployment
 This section allows you to manage and see your release as a kubernetes deployment. It shows you "**ReplicaSets**" (which I take to be kubernetes pods; you can have more than 1 if you want).
 
+Note that you might have to wait a while for the deployment to turn from *`available`*` = 0` to *`available`*` = 1` before you can use the service.
+
 ![Service configuration](screenshots/managing5.png)
 
-*NOTE: Also accessible from the **Network Access** > **Services** tab of the hamburger menu*
+*NOTE: Also accessible from the **Workloads** > *Deployments** tab of the hamburger menu*
 
 ### Service
 This table contains more information about your MongoDB service, in particular the internal localhost port and the external port (which will be used by the client to access).
