@@ -18,13 +18,13 @@
 	</form>
 
 	<h2>Current Votes</h2>
-	<ul class="votes">
+	<div class="votes">
 	<% for(var i=0; i<votes.length; i++) {%>
-	<li class="vote">
+	<div class="vote">
 	  <span><%= votes[i].name %></span>
 	  <span><%= votes[i].animal %></span>
-	</li>
+  </div>
 	<% } %>
-	</ul>
+	</div>
 </body>
 </html>
