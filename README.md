@@ -6,6 +6,8 @@ Step 0 is of course setting up [IBM Cloud Private](https://www.ibm.com/support/k
 
 After that, you need to configure IBM Cloud Private (via the IBM Cloud Private console) to run a MongoDB service that is accessible by a client. See [Database Setup](#database-setup) below for instructions.
 
+You can further [manage](#managing-your-mongodb-service) it from the IBM Console.
+
 Once all is setup, to start the server, type `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client. The host and port variables are also automatically setup.
 
 ## Database Setup
@@ -33,24 +35,47 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 4. We need to make sure that the MongoDB service is accessible outside of the Master node (i.e. an external client must be able to access it). Thus, we need to make sure that the configuration is set as **NodePort** and **NOT** *ClusterIP*.
 
-To do this, click **Parameters** > *All Parameters* and then scroll down to the part that says **Service configuration** and make sure that **Service Type** is set to **NodePort**. Refer to the screenshot below:
+	To do this, click **Parameters** > *All Parameters* and then scroll down to the part that says **Service configuration** and make sure that **Service Type** is set to **NodePort**.
+
+	Refer to the screenshot below:
+
+	![Service configuration](screenshots/setup4.png)
+
+5. We also need to set a password for our administrator. Below **Service Configuration** is a segment that says **MongoDB Configuration** > **Password for MongoDB Admin User**. You are advised to set a strong one; the password is saved in your secrets file and automatically setup from there anyway.
+
+	Refer to the screenshot below:
 
 ![Service configuration](screenshots/setup4.png)
 
-5. Click **Install** and you should be done! You can now click on the popup to view your release.
+6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managin your MongoDB Service](#managing-your-mongodb-service).
 
-Alternatively, click the hamburger menu in the top left corner, and go to **Network Access** > **Services**
+## Managing your MongoDB Service
 
-*IMPORTANT!*
+### Main Release
+
+### Deployment
+
+### Service
+1. To see how your MongoDB service is doing, click the hamburger menu in the top left corner, and go to **Network Access** > **Services**
+
+![Service configuration](screenshots/setup5.png)
+
+2. Search for 
+
+### Command Line
+*Sorry, I haven't figured this out yet; I keep getting weird errors.*
+
+
+## Configuring the npm start script
+While you could just run `npm start` and see how it goes, you might want to modify the start script according to your setup above.
+
 Depending on what you put as the release name (it is `test` by default), you have to edit the `package.json`'s `start` command accordingly.
 
 For example, if your release name is `mydb` (mine is `test`), replace all occurences of `test-ibm-mongodb-dev` with `mydb-ibm-mongodb-dev`. If you changed the namespace, you will need to change it from `default` to something else as well.
 
 Alternatively, just replace the `start` command with whatever is shown when you view `ibm-mongodb-dev` in the *Services* tab.
 
-### Command Line
-*Sorry, I haven't figured this out yet; I keep getting weird errors.*
+
 
 ## References
-
 Some code based off the awesome tutorial here: https://zellwk.com/blog/crud-express-mongodb/
