@@ -8,7 +8,9 @@ After that, you need to configure IBM Cloud Private (via the IBM Cloud Private c
 
 You can further [manage](#managing-your-mongodb-helm-release) it from the IBM Console.
 
-Once all is setup, to start the server, type `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client. The host and port variables are also automatically setup.
+Once all is setup, install dependencies using `npm install`.
+
+To start the server, type `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client. The host and port variables are also automatically setup.
 
 ## Database Setup
 
