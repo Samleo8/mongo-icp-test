@@ -49,29 +49,24 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managin your MongoDB Service](#managing-your-mongodb-service).
 
-## Managing your MongoDB Service
-
-### Main Release
-
-### Deployment
-
-### Service
-1. To see how your MongoDB service is doing, click the hamburger menu in the top left corner, and go to **Network Access** > **Services**
-
-![Service configuration](screenshots/setup5.png)
-
-2. Search for 
-
 ### Command Line
 *Sorry, I haven't figured this out yet; I keep getting weird errors.*
 
+## Managing your MongoDB Service
+
+1. To manage your MongoDB service, click the hamburger menu in the top left corner, and go to **Network Access** > **Services**
+
+![Service configuration](screenshots/managing1.png)
+
+2. Search for the name of your release (mine was **`dbtest`**)
+![Service configuration](screenshots/managing2.png)
 
 ## Configuring the npm start script
 While you could just run `npm start` and see how it goes, you might want to modify the start script according to your setup above.
 
-Depending on what you put as the release name (it is `test` by default), you have to edit the `package.json`'s `start` command accordingly.
+Depending on what you put as the release name (it is `dbtest` by default), you have to edit the `package.json`'s `start` command accordingly.
 
-For example, if your release name is `mydb` (mine is `test`), replace all occurences of `test-ibm-mongodb-dev` with `mydb-ibm-mongodb-dev`. If you changed the namespace, you will need to change it from `default` to something else as well.
+For example, if your release name is `mydb` (mine is `dbtest`), replace all occurences of `dbtest-ibm-mongodb-dev` with `mydb-ibm-mongodb-dev`. If you changed the namespace, you will need to change it from `default` to something else as well.
 
 Alternatively, just replace the `start` command with whatever is shown when you view `ibm-mongodb-dev` in the *Services* tab.
 
