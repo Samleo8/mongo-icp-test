@@ -25,11 +25,11 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 ![Login Screen](screenshots/setup1.png)
 
-2. Once in, click the **Catalog** button on the top right corner of the page. This will lead you to a Catalog page containing all the included Helm repositories. Search for "*mongodb*" and click on the repository named **ibm-mongodb-dev**
+2. Once in, click the **Catalog** button on the top right corner of the page. This will lead you to a Catalog page containing all the included Helm repositories. Search for "***mongodb***" and click on the repository named **ibm-mongodb-dev**
 
 ![Catalog](screenshots/setup2.png)
 
-3. You will then be able to configure the MongoDB dev service. Give it a release name (in my case it is *test*), a target namespace (*default* is fine), and check the necessary boxes.
+3. You will then be able to configure the MongoDB dev service. Give it a release name (in my case it is ***dbtest***), a target namespace (***default*** is fine), and check the necessary boxes.
 
 ![MongoDB Service Setup](screenshots/setup3.png)
 
@@ -47,7 +47,7 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 ![Service configuration](screenshots/setup4.png)
 
-6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managin your MongoDB Service](#managing-your-mongodb-service).
+6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managing your MongoDB Service](#managing-your-mongodb-service).
 
 ### Command Line
 *Sorry, I haven't figured this out yet; I keep getting weird errors.*
@@ -58,7 +58,7 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 ![Service configuration](screenshots/managing1.png)
 
-2. Search for the name of your release (mine was **`dbtest`**)
+2. Search for the name of your release (mine was **dbtest**)
 ![Service configuration](screenshots/managing2.png)
 
 ## Configuring the npm start script
