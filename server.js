@@ -11,7 +11,7 @@ const DB_USERNAME = "mongo";
 const DB_USER = "admin";
 
 //Should be automatically setup on npm start; see README > Database Setup for more details
-const DB_PASSWORD = process.env.MONGOPASSWORD;
+const DB_PASSWORD = process.env.MONGOPASSWORD || "password";
 const DB_HOST_URL = process.env.MONGOHOST || "192.168.27.100";
 const DB_PORT = process.env.MONGOPORT || "27017";
 
