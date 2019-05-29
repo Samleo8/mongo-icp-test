@@ -41,17 +41,13 @@ To do this, click **Parameters** > *All Parameters* and then scroll down to the 
 
 Alternatively, click the hamburger menu in the top left corner, and go to **Network Access** > **Services**
 
-
-
 *IMPORTANT!*
 Depending on what you put as the release name (it is `test` by default), you have to edit the `package.json`'s `start` command accordingly.
 
 For example, if your release name is `mydb` (mine is `test`), replace all occurences of `test-ibm-mongodb-dev` with `mydb-ibm-mongodb-dev`. If you changed the namespace, you will need to change it from `default` to something else as well.
 
-Alternatively, just replace the `start` command with
+Alternatively, just replace the `start` command with whatever is shown when you view `ibm-mongodb-dev` in the *Services* tab.
 
 ## References
-
-IBM Cloud Private:
 
 Some code based off the awesome tutorial here: https://zellwk.com/blog/crud-express-mongodb/
