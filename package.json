@@ -4,7 +4,7 @@
   "description": "Testing Express and MongoDB",
   "main": "server.js",
   "scripts": {
-	"start": "export MONGO_PASSWORD=$(kubectl get secret --namespace default test-ibm-mongodb-dev -o jsonpath='{.data.password}' | base64 --decode; echo); nodemon server.js",
+	"start": "export MONGOHOST=$(kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}'); export MONGOPORT=$(kubectl get svc --namespace default test-ibm-mongodb-dev -o jsonpath='{.spec.ports[0].nodePort}'); export MONGOPASSWORD=$(kubectl get secret --namespace default test-ibm-mongodb-dev -o jsonpath='{.data.password}' | base64 --decode; echo); nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Samuel Leong",

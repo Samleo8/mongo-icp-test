@@ -6,11 +6,14 @@ const app = express();
 //Handling MongoDB
 const MongoClient = require('mongodb').MongoClient;
 
-const USERNAME = "mongo";
-const PASSWORD = process.env.MONGO_PASSWORD || "admin";
+const DB_USERNAME = "mongo";
+const DB_PASSWORD = process.env.MONGOPASSWORD || "password"; //should be automatically setup on npm start
+const DB_HOST_URL = process.env.MONGOHOST || "192.168.31.100"; //change accordingly
+const DB_PORT = process.env.MONGOPORT || "30332";
+const DB_USER = process.env.MONGOPASSWORD || "admin";
 
-const MONGODB_URL = "mongodb://"+USERNAME+":"+PASSWORD+"@192.168.31.100:30332/admin";//'mongodb://YOUR_USERNAME:YOUR_PASSWORD@ds047955.mongolab.com:47955/star-wars-quotes'
-//const db_url = "mongodb+srv://admin:admin@pandas-ef9ir.mongodb.net/test?retryWrites=true";
+const MONGODB_URL = "mongodb://"+DB_USERNAME+":"+DB_PASSWORD+"@"+DB_HOST_URL+":"+DB_PORT+"/"+DB_USER;
+//const MONGODB_URL = "mongodb+srv://admin:<password>@pandas-ef9ir.mongodb.net/test?retryWrites=true";
 
 const client = new MongoClient(MONGODB_URL, { useNewUrlParser: true });
 let db;
