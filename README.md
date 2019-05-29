@@ -6,7 +6,7 @@ Step 0 is of course setting up [IBM Cloud Private](https://www.ibm.com/support/k
 
 After that, you need to configure IBM Cloud Private (via the IBM Cloud Private console) to run a MongoDB service that is accessible by a client. See [Database Setup](#database-setup) below for instructions.
 
-You can further [manage](#managing-your-mongodb-service) it from the IBM Console.
+You can further [manage](#managing-your-mongodb-helm-release) it from the IBM Console.
 
 Once all is setup, to start the server, type `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client. The host and port variables are also automatically setup.
 
@@ -47,12 +47,14 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 
 ![Service configuration](screenshots/setup4.png)
 
-6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managing your MongoDB Service](#managing-your-mongodb-service).
+6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managing your MongoDB Helm Release](#managing-your-mongodb-helm-release).
 
 ### Command Line
 *Sorry, I haven't figured this out yet; I keep getting weird errors.*
 
-## Managing your MongoDB Service
+## Managing your MongoDB Helm Release
+
+### Overall Management
 
 1. To manage your MongoDB service, click the hamburger menu in the top left corner, and go to **Network Access** > **Services**
 
@@ -61,6 +63,28 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 2. Search for the name of your release (mine was **dbtest**)
 ![Service configuration](screenshots/managing2.png)
 
+3. Click on the link to get an overall view of your running release.
+
+	Here, you can get information about [Deployment](#deployment), [Service](#service) and other notes
+
+![Service configuration](screenshots/managing3.png)
+
+### Deployment
+This section allows you to manage and see your release as a kubernetes deployment. It shows you "**ReplicaSets**" (which I take to be kubernetes pods; you can have more than 1 if you want).
+
+![Service configuration](screenshots/managing5.png)
+
+*NOTE: Also accessible from the **Network Access** > **Services** tab of the hamburger menu*
+
+### Service
+This table contains more information about your MongoDB service, in particular the internal localhost port and the external port (which will be used by the client to access).
+
+The *Notes* portion in the screenshot below will help you to [configure the npm start script](#configuring-the-npm-start-script) if you need to.
+
+![Service configuration](screenshots/managing4.png)
+
+*NOTE: Also accessible from the **Network Access** > **Services** tab of the hamburger menu*
+
 ## Configuring the npm start script
 While you could just run `npm start` and see how it goes, you might want to modify the start script according to your setup above.
 
@@ -68,9 +92,7 @@ Depending on what you put as the release name (it is `dbtest` by default), you h
 
 For example, if your release name is `mydb` (mine is `dbtest`), replace all occurences of `dbtest-ibm-mongodb-dev` with `mydb-ibm-mongodb-dev`. If you changed the namespace, you will need to change it from `default` to something else as well.
 
-Alternatively, just replace the `start` command with whatever is shown when you view `ibm-mongodb-dev` in the *Services* tab.
-
-
+Alternatively, just replace the `start` command with whatever is shown when you view `ibm-mongodb-dev` in the **Helm Releases** section, which you can access by following the instructions [here](#service).
 
 ## References
 Some code based off the awesome tutorial here: https://zellwk.com/blog/crud-express-mongodb/
