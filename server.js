@@ -36,12 +36,13 @@ app.use(express.static('public'));
 
 //Handling index.html and subsequent votes
 app.get('/', (req, res) => {
-	//res.sendFile(__dirname + '/index.html'); //note, path must be absolute
-
 	console.log("Retrieving from database "+COLLECTION_NAME+"...");
 
 	db.collection(COLLECTION_NAME).find().toArray((err, results) => {
-		if(err) return console.log("ERROR: "+err);
+		if(err){
+			res.sendFile(__dirname + '/index.html'); //note, path must be absolute
+			return console.log("ERROR: "+err);
+		}
 
 		console.log(JSON.stringify(results, null, 2))
 
@@ -61,7 +62,18 @@ app.post('/form1', (req, res)=>{
 	db.collection(COLLECTION_NAME).insertOne(req.body, (err, result) => {
 		if(err) return console.log("ERROR: "+err);
 
-		console.log('Saved to database: '+result)
-		res.redirect('/')
+		console.log('Saved to database: '+result);
+		res.redirect('/');
 	})
 })
+
+//Handling 404 not found
+// 404
+app.use(function(req, res, next) {
+	return res.status(404).sendFile(__dirname + '/public/404.html'); //note, path must be absolute
+});
+
+// 500 - Any server error
+app.use(function(err, req, res, next) {
+	return res.status(404).sendFile(__dirname + '/public/500.html'); //note, path must be absolute
+});

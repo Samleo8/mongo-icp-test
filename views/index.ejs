@@ -1,4 +1,4 @@
-<!DOCTYPE html>div
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,11 +18,11 @@
 	</form>
 
 	<h2>Current Votes</h2>
-	<ul class="quotes">
-	<% for(var i=0; i<quotes.length; i++) {%>
-	<li class="quote">
-	  <span><%= quotes[i].name %></span>
-	  <span><%= quotes[i].quote %></span>
+	<ul class="votes">
+	<% for(var i=0; i<votes.length; i++) {%>
+	<li class="vote">
+	  <span><%= votes[i].name %></span>
+	  <span><%= votes[i].animal %></span>
 	</li>
 	<% } %>
 	</ul>
