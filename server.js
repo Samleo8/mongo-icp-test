@@ -100,7 +100,7 @@ app.post('/votes_form', (req, res)=>{
 
 app.put('/votes_form', (req, res) => {
 	db.collection(COLLECTION_NAME).findOneAndUpdate({
-		id: req.body.id
+		_id: req.body.id
 	}, {
 		$set: {
 			name: req.body.name,
