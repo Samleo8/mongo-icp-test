@@ -52,7 +52,9 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managing your MongoDB Helm Release](#managing-your-mongodb-helm-release).
 
 ### Command Line
-*Sorry, I still haven't figured this out yet; I keep getting weird errors. Tell me if the supposed fix below works.*
+*Sorry, I still haven't figured this out yet; I keep getting weird errors.*
+
+*Apparently, the fix doesn't work and instead screws up my helm API. If it works, tell me in the issues section.*
 
 1. Before anything, you need to fix a stupid bug via the GUI. Follow the fix on Github [here](https://github.com/IBM/deploy-ibm-cloud-private/issues/80#issuecomment-364155516):
 ```
@@ -62,6 +64,7 @@ Go to Workload > Deployments > [Search:] helm-api > Edit.
 Find and remove liveness-probe and readiness-probe
 Submit.
 ```
+It is advised that you first make a backup of the helm-api JSON text that you are editing.
 
 2. Run the script in `scripts/config_helm.sh` to configure your helm. Do this in the **MASTER NODE** (i.e. if you used Vagrant, you need to `vagrant ssh` in and run it there).
 
@@ -76,6 +79,8 @@ helm install --name <name-of-release> --set service.type=NodePort,database.name=
 ```
 
 Remember to set `service.type=NodePort`
+
+*If let's say at this point you are like me and your fix didn't work, go to `scripts/helm-api-backup.json` and copy over the backup, or better still, use the backup that you have.*
 
 ## Managing your MongoDB Helm Release
 
