@@ -1,0 +1,440 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "helm-api",
+    "namespace": "kube-system",
+    "resourceVersion": "190084",
+    "labels": {
+      "app": "helm-api"
+    },
+    "annotations": {
+      "deployment.kubernetes.io/revision": "2"
+    }
+  
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "helm-api"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "helm-api"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "mongodb-client-cert",
+            "secret": {
+              "secretName": "cluster-ca-cert",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "mongodb-ca-cert",
+            "secret": {
+              "secretName": "cluster-ca-cert",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "helmapi-certs",
+            "secret": {
+              "secretName": "helmapi-secret",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "rudder-certs",
+            "secret": {
+              "secretName": "rudder-secret",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "sharedassets",
+            "emptyDir": {}
+          },
+          {
+            "name": "journal",
+            "hostPath": {
+              "path": "/run/systemd/journal",
+              "type": ""
+            }
+          },
+          {
+            "name": "shared",
+            "emptyDir": {}
+          },
+          {
+            "name": "logrotate",
+            "configMap": {
+              "name": "helm-api",
+              "items": [
+                {
+                  "key": "LOGROTATE",
+                  "path": "audit"
+                }
+              ],
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "logrotate-conf",
+            "configMap": {
+              "name": "helm-api",
+              "items": [
+                {
+                  "key": "LOGROTATE_CONF",
+                  "path": "logrotate.conf"
+                }
+              ],
+              "defaultMode": 420
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "icp-audit-service",
+            "image": "ibmcom/icp-audit-service:3.1.2",
+            "env": [
+              {
+                "name": "LOGROTATE",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "helm-api",
+                    "key": "LOGROTATE"
+                  }
+                }
+              },
+              {
+                "name": "LOGROTATE_CONF",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "helm-api",
+                    "key": "LOGROTATE_CONF"
+                  }
+                }
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "volumeMounts": [
+              {
+                "name": "journal",
+                "mountPath": "/run/systemd/journal"
+              },
+              {
+                "name": "shared",
+                "mountPath": "/var/log/audit"
+              },
+              {
+                "name": "logrotate",
+                "mountPath": "/etc/logrotate.d/audit",
+                "subPath": "audit"
+              },
+              {
+                "name": "logrotate-conf",
+                "mountPath": "/etc/logrotate.conf",
+                "subPath": "logrotate.conf"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          },
+          {
+            "name": "rudder",
+            "image": "ibmcom/icp-helm-rudder:3.1.2",
+            "ports": [
+              {
+                "name": "p5000",
+                "containerPort": 5000,
+                "protocol": "TCP"
+              }
+            ],
+            "env": [
+              {
+                "name": "RUDDER_TILLER_ADDRESS",
+                "value": "tiller-deploy.kube-system:44134"
+              },
+              {
+                "name": "RUDDER_CLIENT_CERTS",
+                "value": "/etc/certs"
+              },
+              {
+                "name": "USE_TLS",
+                "value": "true"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "150m",
+                "memory": "128Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "volumeMounts": [
+              {
+                "name": "rudder-certs",
+                "mountPath": "/etc/certs"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          },
+          {
+            "name": "helmapi",
+            "image": "ibmcom/icp-helm-api:3.1.2",
+            "ports": [
+              {
+                "name": "helm-api",
+                "containerPort": 3000,
+                "protocol": "TCP"
+              }
+            ],
+            "env": [
+              {
+                "name": "DBHOST",
+                "value": "mongodb"
+              },
+              {
+                "name": "DBPORT",
+                "value": "27017"
+              },
+              {
+                "name": "DBUSER",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "icp-mongodb-admin",
+                    "key": "user"
+                  }
+                }
+              },
+              {
+                "name": "DBPASS",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "icp-mongodb-admin",
+                    "key": "password"
+                  }
+                }
+              },
+              {
+                "name": "MONGO_ISSSL",
+                "value": "true"
+              },
+              {
+                "name": "MONGO_SSL_CA",
+                "value": "/certs/mongodb-ca/tls.crt"
+              },
+              {
+                "name": "MONGO_SSL_CERT",
+                "value": "/certs/mongodb-client/tls.crt"
+              },
+              {
+                "name": "MONGO_SSL_KEY",
+                "value": "/certs/mongodb-client/tls.key"
+              },
+              {
+                "name": "ISICP",
+                "value": "true"
+              },
+              {
+                "name": "CLUSTER_URL",
+                "value": "https://icp-management-ingress:8443"
+              },
+              {
+                "name": "PLATFORM_IDENTITY_PROVIDER_URL",
+                "value": "http://platform-identity-provider:4300"
+              },
+              {
+                "name": "CLUSTER_PORT",
+                "value": "8443"
+              },
+              {
+                "name": "WLP_CLIENT_ID",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "platform-oidc-credentials",
+                    "key": "WLP_CLIENT_ID"
+                  }
+                }
+              },
+              {
+                "name": "WLP_CLIENT_SECRET",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "platform-oidc-credentials",
+                    "key": "WLP_CLIENT_SECRET"
+                  }
+                }
+              },
+              {
+                "name": "cfcRouterUrl",
+                "value": "https://icp-management-ingress:8443"
+              },
+              {
+                "name": "WLP_REDIRECT_URL",
+                "value": "http://localhost:3000/auth/liberty/callback"
+              },
+              {
+                "name": "HTTP_PROXY"
+              },
+              {
+                "name": "HTTPS_PROXY"
+              },
+              {
+                "name": "NO_PROXY",
+                "value": "192.168.31.100,mycluster.icp,mongodb,platform-identity-provider,platform-identity-management,icp-management-ingress,localhost,127.0.0.1"
+              },
+              {
+                "name": "PROXY_EXTERNAL_ADDR",
+                "value": "192.168.31.100"
+              },
+              {
+                "name": "PROXY_ROUTE",
+                "value": "helm-api"
+              },
+              {
+                "name": "LOAD_ROUTES",
+                "value": "API"
+              },
+              {
+                "name": "PORT",
+                "value": "3000"
+              },
+              {
+                "name": "CLUSTER_CA_DOMAIN",
+                "value": "mycluster.icp"
+              },
+              {
+                "name": "SET_TLS",
+                "value": "true"
+              },
+              {
+                "name": "SERVICE_NAME",
+                "value": "helmapi"
+              },
+              {
+                "name": "POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  }
+                }
+              },
+              {
+                "name": "AUDIT_ENABLED",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "helm-api",
+                    "key": "AUDIT_ENABLED"
+                  }
+                }
+              },
+              {
+                "name": "AUDIT_LOG_PATH",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "helm-api",
+                    "key": "AUDIT_LOG_PATH"
+                  }
+                }
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "400Mi"
+              },
+              "requests": {
+                "cpu": "200m",
+                "memory": "300Mi"
+              }
+            },
+            "volumeMounts": [
+              {
+                "name": "mongodb-ca-cert",
+                "mountPath": "/certs/mongodb-ca"
+              },
+              {
+                "name": "mongodb-client-cert",
+                "mountPath": "/certs/mongodb-client"
+              },
+              {
+                "name": "helmapi-certs",
+                "mountPath": "/etc/certs"
+              },
+              {
+                "name": "sharedassets",
+                "mountPath": "/usr/src/app/assets"
+              },
+              {
+                "name": "shared",
+                "mountPath": "/var/log/audit"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "nodeSelector": {
+          "master": "true"
+        },
+        "securityContext": {},
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "dedicated",
+            "operator": "Exists",
+            "effect": "NoSchedule"
+          },
+          {
+            "key": "CriticalAddonsOnly",
+            "operator": "Exists"
+          }
+        ]
+      }
+    },
+    "strategy": {
+      "type": "RollingUpdate",
+      "rollingUpdate": {
+        "maxUnavailable": 1,
+        "maxSurge": 1
+      }
+    },
+    "revisionHistoryLimit": 10,
+    "progressDeadlineSeconds": 2147483647
+  }
+}
