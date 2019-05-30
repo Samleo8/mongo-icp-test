@@ -110,7 +110,7 @@ app.put('/votes_form', (req, res) => {
 		}
 	}, {
 		//sort: {_id: -1},
-		upsert: true
+		//upsert: true
 	}, (err, result) => {
 		if (err) return res.send(err)
 		res.send(result)
