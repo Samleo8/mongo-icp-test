@@ -12,7 +12,7 @@
 	<h1 class="title">
 		Pandas or Penguins?
 	</h1>
-	<form action="/form1" method="POST">
+	<form action="/votes_form" method="POST">
 		<input type="text" placeholder="Who art thou?" name="name">
 		<input type="text" placeholder="A cuddly animal (eg. panda)?" name="animal">
 		<input type="submit" value="Vote" />
@@ -25,7 +25,7 @@
 			<span>Cuddly Animal</span>
 		</div>
 		<% for(var i=0; i<votes.length; i++) {%>
-		<div class="vote">
+		<div class="vote" id="<%= votes[i].id %>">
 		  <span><%= votes[i].name %></span> |
 		  <span><%= votes[i].animal %></span>
 		  <div class="btn panda-invasion-btn disableSelect">Panda invasion</div>

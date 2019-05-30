@@ -5,6 +5,8 @@ const app = express();
 
 //NOSERVER?
 const NOSERVER = process.env.NOSERVER || 0;
+if(NOSERVER) console.log("Debugging with NOSERVER="+NOSERVER);
+
 const FAKE_DATABASE = [
 	{ id: 0, name: "Name1", animal: "Panda" },
 	{ id: 1, name: "Name2", animal: "Penguin" },
@@ -39,6 +41,7 @@ if(!NOSERVER){
 		db = client.db("cuddly-animals");
 
 		console.log("Connected to MongoDB server at "+MONGODB_URL);
+
 		app.listen(port, () => {
 			console.log("Listening on http://localhost:" + port);
 		});
@@ -86,7 +89,7 @@ app.get('/', (req, res) => {
 });
 
 //Handling forms
-app.post('/form1', (req, res)=>{
+app.post('/votes_form', (req, res)=>{
 	db.collection(COLLECTION_NAME).insertOne(req.body, (err, result) => {
 		if(err) return console.log("ERROR: "+err);
 
@@ -95,10 +98,28 @@ app.post('/form1', (req, res)=>{
 	})
 })
 
-//// NOSERVER:
-app.listen(port, () => {
-	console.log("Listening on http://localhost:" + port);
-});
+app.put('/votes_form', (req, res) => {
+  db.collection('quotes')
+  .findOneAndUpdate({id: req.body.id}, {
+    $set: {
+      name: req.body.name,
+      quote: req.body.quote
+    }
+  }, {
+    //sort: {_id: -1},
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+  })
+})
+
+// NOSERVER
+if(NOSERVER){
+	app.listen(port, () => {
+		console.log("Listening on http://localhost:" + port);
+	});
+}
 
 //Handling 404 not found
 // 404
