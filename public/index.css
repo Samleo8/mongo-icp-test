@@ -243,3 +243,114 @@ p.subtitle{
 	right: 0;
 	margin:auto;
 }
+
+.link-button{
+	overflow: hidden;
+	background:rgb(141,211,107);
+	color:rgba(0,30,30,0.8);
+
+	text-align:center;
+	margin-left:4%;
+	padding-left:0;
+	padding-right:0;
+
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.link-button.pad{
+    padding-left:30px;
+    padding-right:30px;
+}
+
+.link-button:hover{
+    background: #f58500;
+    color:white;
+}
+
+.link-button:after{
+	width: 40%;
+	height: 400%;
+	background: rgba(100,100,100,0.15);
+	z-index: 1;
+	right: 0;
+	top: 0;
+	margin: -5px 0 0 -5px;
+	-webkit-transform-origin: 0 0;
+	-webkit-transform: rotate(-20deg);
+	-moz-transform-origin: 0 0;
+	-moz-transform: rotate(-20deg);
+	-ms-transform-origin: 0 0;
+	-ms-transform: rotate(-20deg);
+	transform-origin: 0 0;
+	transform: rotate(-20deg);
+}
+
+.link-button:hover:after {
+	width:50%;
+	background: rgba(50,50,50,0.25);
+}
+
+.link-button:active {
+	background: #f58500;
+    color:white;
+	top: 2px;
+}
+
+.btn{
+    position: relative;
+    background:#EEE;
+    color:#066;
+    cursor:pointer;
+    padding: 0px 15px;
+    height:50px;
+    line-height: 50px;
+
+    width:200px;
+    flex: 1 190px;
+
+    transition: 0.3s ease;
+}
+
+.btn.alt, .btn.alternative, .alt-btn{
+	background:rgb(174, 236, 208);
+    color:#1A4646;
+}
+
+.btn:hover{
+    color:black;
+}
+
+.btn:after{
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+    width:0%;
+    height:100%;
+
+	background:rgba(84, 255, 0, 0.25);
+}
+
+.btn:hover:after{
+    width:100%;
+}
+
+.disableSelect{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.enableSelect{
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
