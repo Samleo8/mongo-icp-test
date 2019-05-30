@@ -2,15 +2,25 @@
 
 This is a test client app that attempts to communicate with the MongoDB service/server in the IBM Private Cloud.
 
-Step 0 is of course setting up [IBM Cloud Private](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_1.2.0/kc_welcome_containers.html). I used Vagrant as per the instructions [here](https://github.com/IBM/deploy-ibm-cloud-private/blob/master/docs/deploy-vagrant.md).
+## Running the App
 
-After that, you need to configure IBM Cloud Private (via the IBM Cloud Private console) to run a MongoDB service that is accessible by a client. See [Database Setup](#database-setup) below for instructions.
+0. Set up [IBM Cloud Private](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_1.2.0/kc_welcome_containers.html). I used Vagrant as per the instructions [here](https://github.com/IBM/deploy-ibm-cloud-private/blob/master/docs/deploy-vagrant.md).
 
-You can further [manage](#managing-your-mongodb-helm-release) it from the IBM Console.
+1. Configure IBM Cloud Private (via the IBM Cloud Private console) to run a MongoDB service that is accessible by a client. See [Database Setup](#database-setup) below for instructions.
 
-Once all is setup, install dependencies using `npm install`.
+	You can further [manage](#managing-your-mongodb-helm-release) it from the IBM Console.
 
-To start the server, type `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client. The host and port variables are also automatically setup.
+2. Once all is setup, install dependencies using `npm install`.
+
+3. Make sure the master node is up and running. If you used vagrant like I did, run `vagrant up`.
+
+	You might need to wait (quite) a while before the MongoDB pod becomes available.
+
+4. Configure you client. Use the script in `scripts/configure_client.sh`, and edit the `SERVER` variable accordingly.
+
+4. Start the app with `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client (and actually also to you). The host and port variables are also automatically setup.
+
+	Other commands include `npm run dev` (testing) and `npm run noserver` (simulate with fake data)
 
 ## Database Setup
 

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SERVER="192.168.31.100"
+
+echo "Configuring cluster to connect to the server at $SERVER"
+
+kubectl config set-cluster mycluster --server=https://$SERVER:8001 --insecure-skip-tls-verify=true
+kubectl config set-context mycluster-context --cluster=mycluster
+kubectl config set-credentials admin --token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiYmY1ZWI5M2E0ZDdiMDA2MjRiZDE0MTgzOWU4MTU4ZDZlNmM3ODg1ZiIsInJlYWxtTmFtZSI6ImN1c3RvbVJlYWxtIiwidW5pcXVlU2VjdXJpdHlOYW1lIjoiYWRtaW4iLCJpc3MiOiJodHRwczovL215Y2x1c3Rlci5pY3A6OTQ0My9vaWRjL2VuZHBvaW50L09QIiwiYXVkIjoiNDcwMzMwNDc1NzRmMmZlNzJlZWEzYzg3Zjk4MGZlZmQiLCJleHAiOjE1NTg2MjY2MDEsImlhdCI6MTU1ODU5NzgwMSwic3ViIjoiYWRtaW4iLCJ0ZWFtUm9sZU1hcHBpbmdzIjpbXX0.zGoC_r5fEe040xFjfJcM6Nm-C-rmk1g2EPX6LTwd97cf62VDqAyIQp4P2hyqP3Pjo9S4LHrrud5_suPPNNBNrr9M9nqjmnapxsoOSloXpH1HWfRO8KRSIbyFbbIkQ2M6Q1E3zSBJN0mq1UNkkKAFe1LwR_Y1N8dApfRu2qip5weBO8uu1h-18XCFVNZnuDs3V0SilAqtefTszDPFrtyiuFFhxjk6HsvhegL4mwH7rXq29wJZyyzS0CsZgKOtLYxACGDhA4BX3OZTJebb8D1n-RXG5uZPAowDD588MsOoLvJMB9-GYpViWDZDYNHSpg_nA-hfbJVbV7oiCrREJMeL3w
+kubectl config set-context mycluster-context --user=admin --namespace=cert-manager
+kubectl config use-context mycluster-context
+
+echo "Cluster configured. Testing..."
+
+kubectl get pods
