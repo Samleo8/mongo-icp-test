@@ -99,6 +99,8 @@ app.post('/votes_form', (req, res)=>{
 })
 
 app.put('/votes_form', (req, res) => {
+	console.log(req, res);
+
 	db.collection(COLLECTION_NAME).findOneAndUpdate({
 		_id: req.body.id
 	}, {
