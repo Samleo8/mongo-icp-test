@@ -16,14 +16,14 @@ const MongoClient = require('mongodb').MongoClient;
 
 //Set this yourself
 const DB_USERNAME = "mongo";
-const DB_USER = "admin";
+const DB_NAME = process.env.MONGONAME || "admin";
 
 //Should be automatically setup on npm start; see README > Database Setup for more details
 const DB_PASSWORD = process.env.MONGOPASSWORD || "password";
 const DB_HOST_URL = process.env.MONGOHOST || "192.168.27.100";
 const DB_PORT = process.env.MONGOPORT || "27017";
 
-const MONGODB_URL = "mongodb://"+DB_USERNAME+":"+DB_PASSWORD+"@"+DB_HOST_URL+":"+DB_PORT+"/"+DB_USER;
+const MONGODB_URL = "mongodb://"+DB_USERNAME+":"+DB_PASSWORD+"@"+DB_HOST_URL+":"+DB_PORT+"/"+DB_NAME;
 //const MONGODB_URL = "mongodb+srv://admin:<password>@pandas-ef9ir.mongodb.net/test?retryWrites=true";
 
 console.log("Connecting to "+MONGODB_URL+"...");
@@ -54,13 +54,19 @@ app.use(express.static('public'));
 
 //Handling index.html and subsequent votes
 app.get('/', (req, res) => {
-	console.log("Retrieving from database "+COLLECTION_NAME+"...");
+	console.log("Retrieving from collection "+COLLECTION_NAME+"...");
 
 	if(NOSERVER){
 		// send HTML file populated with quotes here
 		res.render('index.ejs', {
 			"votes": FAKE_DATABASE
 		});
+		return;
+	}
+
+	if(!db){
+		res.sendFile(__dirname + '/index.html'); //note, path must be absolute
+		console.log("ERROR: MongoDB is not connected.");
 		return;
 	}
 
