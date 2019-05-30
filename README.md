@@ -52,7 +52,30 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managing your MongoDB Helm Release](#managing-your-mongodb-helm-release).
 
 ### Command Line
-*Sorry, I haven't figured this out yet; I keep getting weird errors.*
+*Sorry, I still haven't figured this out yet; I keep getting weird errors. Tell me if the supposed fix below works.*
+
+1. Before anything, you need to fix a stupid bug via the GUI. Follow the fix on Github [here](https://github.com/IBM/deploy-ibm-cloud-private/issues/80#issuecomment-364155516):
+```
+We were able to fix it: helm-api pings a server that does not exist anymore.
+
+Go to Workload > Deployments > [Search:] helm-api > Edit.
+Find and remove liveness-probe and readiness-probe
+Submit.
+```
+
+2. Run the script in `scripts/config_helm.sh` to configure your helm. Do this in the **MASTER NODE** (i.e. if you used Vagrant, you need to `vagrant ssh` in and run it there).
+
+3. In the master node, you can install the mongodb with name `dbtest` and password `password123` as below:
+```bash
+helm install --name dbtest --set service.type=NodePort,database.password=password123 stable/ibm-mongodb-dev
+```
+
+More generally,
+```bash
+helm install --name <name-of-release> --set service.type=NodePort,database.name=<database-name(default:admin)>,database.password=<database-password> stable/ibm-mongodb-dev
+```
+
+Remember to set `service.type=NodePort`
 
 ## Managing your MongoDB Helm Release
 
