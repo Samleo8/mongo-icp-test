@@ -20,13 +20,17 @@
 
 	<h2>Current Votes</h2>
 	<div class="votes">
-	<% for(var i=0; i<votes.length; i++) {%>
-	<div class="vote">
-	  <span><%= votes[i].name %></span>
-	  <span><%= votes[i].animal %></span>
-	  <div type="button" class="btn">Panda invasion</div>
-  	</div>
-	<% } %>
+		<div class="vote-header">
+			<span>Name</span> |
+			<span>Cuddly Animal</span>
+		</div>
+		<% for(var i=0; i<votes.length; i++) {%>
+		<div class="vote">
+		  <span><%= votes[i].name %></span> |
+		  <span><%= votes[i].animal %></span>
+		  <div class="btn panda-invasion-btn disableSelect">Panda invasion</div>
+	  	</div>
+		<% } %>
 	</div>
 </body>
 </html>

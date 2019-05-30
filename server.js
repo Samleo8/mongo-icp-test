@@ -3,6 +3,14 @@ const port = process.env.PORT || 3001;
 const express = require('express');
 const app = express();
 
+//NOSERVER?
+const NOSERVER = process.env.NOSERVER || 0;
+const FAKE_DATABASE = [
+	{ id: 0, name: "Name1", animal: "Panda" },
+	{ id: 1, name: "Name2", animal: "Penguin" },
+	{ id: 2, name: "Name3", animal: "Dolphin"}
+];
+
 //Handling MongoDB
 const MongoClient = require('mongodb').MongoClient;
 
@@ -24,16 +32,18 @@ const client = new MongoClient(MONGODB_URL, { useNewUrlParser: true });
 let db;
 const COLLECTION_NAME = "votes";
 
-client.connect(err => {
-	if(err) return console.log("ERROR: "+err);
+if(!NOSERVER){
+	client.connect(err => {
+		if(err) return console.log("ERROR: "+err);
 
-	db = client.db("cuddly-animals");
+		db = client.db("cuddly-animals");
 
-	console.log("Connected to MongoDB server at "+MONGODB_URL);
-	app.listen(port, () => {
-		console.log("Listening on http://localhost:" + port);
+		console.log("Connected to MongoDB server at "+MONGODB_URL);
+		app.listen(port, () => {
+			console.log("Listening on http://localhost:" + port);
+		});
 	});
-});
+}
 
 app.set('view engine', 'ejs');
 const bodyParser= require('body-parser');
@@ -45,6 +55,14 @@ app.use(express.static('public'));
 //Handling index.html and subsequent votes
 app.get('/', (req, res) => {
 	console.log("Retrieving from database "+COLLECTION_NAME+"...");
+
+	if(NOSERVER){
+		// send HTML file populated with quotes here
+		res.render('index.ejs', {
+			"votes": FAKE_DATABASE
+		});
+		return;
+	}
 
 	db.collection(COLLECTION_NAME).find().toArray((err, results) => {
 		if(err){
@@ -61,10 +79,6 @@ app.get('/', (req, res) => {
 	});
 });
 
-app.post('/', (req, res) => {
-	console.log("Hello?!?");
-});
-
 //Handling forms
 app.post('/form1', (req, res)=>{
 	db.collection(COLLECTION_NAME).insertOne(req.body, (err, result) => {
@@ -74,6 +88,11 @@ app.post('/form1', (req, res)=>{
 		res.redirect('/');
 	})
 })
+
+//// NOSERVER:
+app.listen(port, () => {
+	console.log("Listening on http://localhost:" + port);
+});
 
 //Handling 404 not found
 // 404

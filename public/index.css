@@ -310,7 +310,7 @@ p.subtitle{
     width:200px;
     flex: 1 190px;
 
-    transition: 0.3s ease;
+    transition:all 0.3s ease;
 }
 
 .btn.alt, .btn.alternative, .alt-btn{
@@ -353,4 +353,17 @@ p.subtitle{
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
+}
+
+/* Website specific */
+.vote{
+	display:block;
+	margin: 10px 0px;
+}
+
+.panda-invasion-btn{
+	display: inline-block;
+	width: 120px;
+	height: 40px;
+	line-height: 40px;
 }

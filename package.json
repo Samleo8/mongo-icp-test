@@ -6,7 +6,8 @@
   "scripts": {
     "start": "export MONGOHOST=$(kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}'); export MONGOPORT=$(kubectl get svc --namespace default dbtest-ibm-mongodb-dev -o jsonpath='{.spec.ports[0].nodePort}'); export MONGOPASSWORD=$(kubectl get secret --namespace default dbtest-ibm-mongodb-dev -o jsonpath='{.data.password}' | base64 --decode; echo); nodemon server.js",
     "dev": "export MONGOHOST=$(kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}'); export MONGOPORT=$(kubectl get svc --namespace default dbtest-ibm-mongodb-dev -o jsonpath='{.spec.ports[0].nodePort}'); export MONGOPASSWORD=$(kubectl get secret --namespace default dbtest-ibm-mongodb-dev -o jsonpath='{.data.password}' | base64 --decode; echo); nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+	"noserver": "export NOSERVER=1; nodemon server.js",
+	"test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Samuel Leong",
   "license": "ISC",
