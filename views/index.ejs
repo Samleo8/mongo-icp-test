@@ -25,7 +25,7 @@
 			<span>Cuddly Animal</span>
 		</div>
 		<% for(var i=0; i<votes.length; i++) {%>
-		<div class="vote" id="<%= votes[i].id %>">
+		<div class="vote" id="voteID_<%= votes[i]._id %>">
 		  <span><%= votes[i].name %></span> |
 		  <span><%= votes[i].animal %></span>
 		  <div class="btn panda-invasion-btn disableSelect">Panda invasion</div>

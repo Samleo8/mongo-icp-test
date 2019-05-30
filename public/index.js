@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 	for(var i=0;i<updateBtns.length;i++){
 		updateBtns[i].addEventListener("click", update_animal);
-		console.log(updateBtns[i]);
 	}
 }, false);
 

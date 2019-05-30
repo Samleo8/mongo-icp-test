@@ -99,19 +99,20 @@ app.post('/votes_form', (req, res)=>{
 })
 
 app.put('/votes_form', (req, res) => {
-  db.collection('quotes')
-  .findOneAndUpdate({id: req.body.id}, {
-    $set: {
-      name: req.body.name,
-      quote: req.body.quote
-    }
-  }, {
-    //sort: {_id: -1},
-    upsert: true
-  }, (err, result) => {
-    if (err) return res.send(err)
-    res.send(result)
-  })
+	db.collection(COLLECTION_NAME).findOneAndUpdate({
+		id: req.body.id
+	}, {
+		$set: {
+			name: req.body.name,
+			animal: req.body.animal
+		}
+	}, {
+		//sort: {_id: -1},
+		upsert: true
+	}, (err, result) => {
+		if (err) return res.send(err)
+		res.send(result)
+	})
 })
 
 // NOSERVER
