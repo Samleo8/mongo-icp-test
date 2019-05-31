@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 let update_animal = (e, animal) => {
 	e.stopPropagation();
 
-
 	let voteEle = e.target.parentElement.parentElement;
 
 	let vote_id = voteEle.id.replace("voteID_","");
@@ -77,8 +76,46 @@ let update_animal = (e, animal) => {
 		})
 }
 
+let delete_entry = (e) => {
+	e.stopPropagation();
+
+	let voteEle = e.target.parentElement.parentElement;
+
+	let vote_id = voteEle.id.replace("voteID_","");
+	let vote_name = voteEle.getElementsByTagName("span")[0].innerText;
+	let vote_animal = voteEle.getElementsByTagName("span")[1].innerText;
+
+	console.log("Deleting vote with id "+vote_id);
+
+	fetch('votes_form', {
+			method: 'delete',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				'id': vote_id,
+				'name': vote_name,
+				'animal': vote_animal
+			})
+		})
+		.then(response => {
+			if (response.ok) return response.json()
+		})
+		.then(data => {
+			//Do updates here accordingly!
+			if(data.id){
+				refreshVotes(data);
+			}
+		})
+}
+
 let refreshVotes = (data)=>{
 	let voteEle = document.getElementById("voteID_"+data._id);
+
+	if(data.subject == "deleted"){
+		voteEle.parentElement.removeChild(voteEle);
+		return;
+	}
 
 	let i;
 	for(i in data){

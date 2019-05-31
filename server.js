@@ -125,6 +125,20 @@ app.put('/votes_form', (req, res) => {
 	})
 })
 
+app.delete('/votes_form', (req, res) => {
+	db.collection('quotes').findOneAndDelete({
+		_id: ObjectId(req.body.id)
+	},
+	(err, result) => {
+		if (err) return res.send(500, err)
+		res.send({
+			id: req.body.id,
+			subject: 'deleted',
+			message: 'Deleted vote with id '+req.body.id
+		})
+	})
+})
+
 // NOSERVER
 if(NOSERVER){
 	app.listen(port, () => {
