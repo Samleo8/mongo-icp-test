@@ -394,7 +394,7 @@ p.subtitle{
 	margin: 10px 0px;
 }
 
-.panda-invasion-btn{
+.panda-invasion-btn, .delete-btn{
 	display: inline-block;
 	width: 120px;
 	height: 40px;

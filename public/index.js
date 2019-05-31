@@ -1,4 +1,4 @@
-//DOM Loaded
+/*=============HANDLE INITIALISING AND EVENT LISTENERS================*/
 document.addEventListener('DOMContentLoaded', ()=>{
 	let i=0, j=0;
 
@@ -23,13 +23,27 @@ document.addEventListener('DOMContentLoaded', ()=>{
 	let updateBtns = document.getElementsByClassName("panda-invasion-btn");
 
 	for(i=0;i<updateBtns.length;i++){
-		updateBtns[i].addEventListener("click", update_animal);
-		updateBtns[i].addEventListener("touchend", update_animal);
+		updateBtns[i].addEventListener("click", (e)=>{ update_animal(e, "panda"); });
+		updateBtns[i].addEventListener("touchend", (e)=>{ update_animal(e, "panda"); });
+	}
+
+	updateBtns = document.getElementsByClassName("penguin-invasion-btn");
+
+	for(i=0;i<updateBtns.length;i++){
+		updateBtns[i].addEventListener("click", (e)=>{ update_animal(e, "penguin"); });
+		updateBtns[i].addEventListener("touchend", (e)=>{ update_animal(e, "penguin"); });
+	}
+
+	let deleteBtns = document.getElementsByClassName("delete-btn");
+
+	for(i=0;i<deleteBtns.length;i++){
+		deleteBtns[i].addEventListener("click", (e)=>{ delete_entry(e); });
+		deleteBtns[i].addEventListener("touchend", (e)=>{ delete_entry(e); });
 	}
 }, false);
 
-//Updating the database
-let update_animal = (e) => {
+/*=======UPDATING THE DATABASE==========*/
+let update_animal = (e, animal) => {
 	e.stopPropagation();
 
 	let voteEle = e.target.parentElement;
@@ -38,9 +52,9 @@ let update_animal = (e) => {
 	let vote_name = voteEle.getElementsByTagName("span")[0].innerText;
 	let vote_animal = voteEle.getElementsByTagName("span")[1].innerText;
 
-	console.log(vote_name+" voted for "+vote_animal+" (id: "+vote_id+") but that's gonna be changed to Panda, cos China, and communism. Plus, I love pandas, deal with it.");
+	console.log(vote_name+" voted for "+vote_animal+" (id: "+vote_id+") but that's gonna be changed to "+animal+". I love "+animal+"s, deal with it.");
 
-	fetch('votes', {
+	fetch('votes_form', {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json'
@@ -55,6 +69,9 @@ let update_animal = (e) => {
 			if (response.ok) return response.json()
 		})
 		.then(data => {
-			console.log(data)
+			console.log(data);
+			console.log(data.value);
+			//Do updates here accordingly!
+			//window.location.reload();
 		})
 }

@@ -14,7 +14,7 @@ const FAKE_DATABASE = [
 ];
 
 //Handling MongoDB
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient, ObjectId } = require('mongodb');
 
 //Set this yourself
 const DB_USERNAME = "mongo";
@@ -79,7 +79,7 @@ app.get('/', (req, res) => {
 			return console.log("ERROR: "+err);
 		}
 
-		console.log(JSON.stringify(results, null, 2))
+		console.log("Results: ",JSON.stringify(results, null, 2))
 
 		// send HTML file populated with quotes here
 		res.render('index.ejs', {
@@ -90,6 +90,11 @@ app.get('/', (req, res) => {
 
 //Handling forms
 app.post('/votes_form', (req, res)=>{
+	if(!req.body.name.length || !req.body.animal.length){
+		res.redirect('/');
+		return;
+	}
+
 	db.collection(COLLECTION_NAME).insertOne(req.body, (err, result) => {
 		if(err) return console.log("ERROR: "+err);
 
@@ -99,10 +104,11 @@ app.post('/votes_form', (req, res)=>{
 })
 
 app.put('/votes_form', (req, res) => {
-	console.log("Panda Invasion!", req, res);
+	//console.log("Panda Invasion!", req, res);
 
+	console.log(req.id);
 	db.collection(COLLECTION_NAME).findOneAndUpdate({
-		_id: req.body.id
+		_id: ObjectId(req.body.id)
 	}, {
 		$set: {
 			name: req.body.name,
@@ -110,10 +116,12 @@ app.put('/votes_form', (req, res) => {
 		}
 	}, {
 		//sort: {_id: -1},
-		upsert: true
+		//upsert: true,
+		returnNewDocument: true
 	}, (err, result) => {
-		if (err) return res.send(err)
-		res.send(result)
+		if (err) return res.send(err);
+		res.send(result);
+		console.log(result);
 	})
 })
 
