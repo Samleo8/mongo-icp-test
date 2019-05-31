@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Cute and Cuddly Creatures</title>
 	<link rel="stylesheet" href="index.css">
+	<script src="index.lib.js" type="text/javascript"></script>
 	<script src="index.js" type="text/javascript"></script>
 </head>
 
@@ -15,7 +16,8 @@
 	<form action="/votes_form" method="POST">
 		<input type="text" placeholder="Who art thou?" name="name">
 		<input type="text" placeholder="A cuddly animal (eg. panda)?" name="animal">
-		<input type="submit" value="Vote" />
+		<div class="btn submit">Vote</div>
+		<input type="submit" value="" class="noDisplay" />
 	</form>
 
 	<h2>Current Votes</h2>

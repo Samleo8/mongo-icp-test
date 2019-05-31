@@ -244,6 +244,16 @@ p.subtitle{
 	margin:auto;
 }
 
+.noDisplay{
+	display:none;
+}
+.inline{
+	display:inline;
+}
+.inline-block{
+	display:inline-block;
+}
+
 .link-button{
 	overflow: hidden;
 	background:rgb(141,211,107);
@@ -313,6 +323,17 @@ p.subtitle{
     transition:all 0.3s ease;
 }
 
+.btn.submit{
+	display: inline-block;
+	padding: 0px 10px;
+	width:100px;
+	height: 35px;
+	margin:10px;
+	line-height: 35px;
+
+	border:none;
+}
+
 .btn.alt, .btn.alternative, .alt-btn{
 	background:rgb(174, 236, 208);
     color:#1A4646;
@@ -323,6 +344,10 @@ p.subtitle{
 }
 
 .btn:after{
+	content:'';
+	position: absolute;
+	text-overflow: ellipsis;
+
     position: absolute;
     top:0;
     left:0;
@@ -331,10 +356,18 @@ p.subtitle{
     height:100%;
 
 	background:rgba(84, 255, 0, 0.25);
+
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
 }
 
 .btn:hover:after{
     width:100%;
+}
+
+.btn:active{
+	top:2px;
 }
 
 .disableSelect{
