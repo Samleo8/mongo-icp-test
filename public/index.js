@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 let update_animal = (e, animal) => {
 	e.stopPropagation();
 
-	let voteEle = e.target.parentElement;
+
+	let voteEle = e.target.parentElement.parentElement;
 
 	let vote_id = voteEle.id.replace("voteID_","");
 	let vote_name = voteEle.getElementsByTagName("span")[0].innerText;
@@ -61,17 +62,30 @@ let update_animal = (e, animal) => {
 			},
 			body: JSON.stringify({
 				'id': vote_id,
-				'name': vote_name,
-				'animal': 'Panda'
+				'name': (Math.random()<0.5)?animal:vote_name,
+				'animal': (Math.random()<0.5)?animal:vote_animal
 			})
 		})
 		.then(response => {
 			if (response.ok) return response.json()
 		})
 		.then(data => {
-			console.log(data);
-			console.log(data.value);
 			//Do updates here accordingly!
-			//window.location.reload();
+			if(data.value){
+				refreshVotes(data.value);
+			}
 		})
+}
+
+let refreshVotes = (data)=>{
+	let voteEle = document.getElementById("voteID_"+data._id);
+
+	let i;
+	for(i in data){
+		if(i=="_id" || !data.hasOwnProperty(i)) continue;
+		let el = voteEle.getElementsByClassName("vote_"+i)[0];
+		if(el){
+			el.innerHTML = data[i];
+		}
+	}
 }
