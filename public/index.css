@@ -142,6 +142,10 @@ b, strong, .bold, .bold-700{
     font-size: 200%;
 }
 
+.italics, .emphasis{
+	font-style: italic;
+}
+
 label{
     cursor:pointer;
 }
@@ -334,7 +338,12 @@ p.subtitle{
 	border:none;
 }
 
-.btn.alt, .btn.alternative, .alt-btn{
+.btn.alternative, .btn.alt{
+	background:#066;
+	color:#EEE;
+}
+
+.btn.alt2{
 	background:rgb(174, 236, 208);
     color:#1A4646;
 }
@@ -388,15 +397,38 @@ p.subtitle{
     user-select: text;
 }
 
-/* Website specific */
-.vote{
-	display:block;
-	margin: 10px 0px;
+.flex{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
-.panda-invasion-btn, .delete-btn{
+/* Website specific */
+.votes{
+	width:100%;
+}
+
+.vote{
+	display:block;
+	text-align: center;
+	padding:20px 40px;
+	margin:10px;
+	width:450px;
+	flex: 450px auto;
+
+	color:#1A4646;
+	background: rgb(180, 250, 150);
+}
+
+.vote .btn{
+	text-overflow: ellipsis;
 	display: inline-block;
 	width: 120px;
 	height: 40px;
 	line-height: 40px;
+	margin:5px 10px;
+}
+
+.vote .penguin-invasion-btn{
+	width:140px;
 }
