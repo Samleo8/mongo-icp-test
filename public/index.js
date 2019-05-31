@@ -1,14 +1,37 @@
 //DOM Loaded
 document.addEventListener('DOMContentLoaded', ()=>{
+	let i=0, j=0;
+
+	//Handle event listeners for all submit buttons (which are special divs)
+	let formEles = document.getElementsByTagName("form");
+	for(i=0;i<formEles.length;i++){
+		let formEle = formEles[i];
+		let submitBtns = document.getElementsByClassName("submit");
+		for(j=0;j<submitBtns.length;j++){
+			submitBtns[j].addEventListener("mouseup", (e)=>{
+				e.stopPropagation();
+				formEle.submit();
+			});
+			submitBtns[j].addEventListener("touchend", (e)=>{
+				e.stopPropagation();
+				formEle.submit();
+			});
+		}
+	}
+
+	//Handle Event Listeners for all update buttons
 	let updateBtns = document.getElementsByClassName("panda-invasion-btn");
 
-	for(var i=0;i<updateBtns.length;i++){
+	for(i=0;i<updateBtns.length;i++){
 		updateBtns[i].addEventListener("click", update_animal);
+		updateBtns[i].addEventListener("touchend", update_animal);
 	}
 }, false);
 
 //Updating the database
 let update_animal = (e) => {
+	e.stopPropagation();
+
 	let voteEle = e.target.parentElement;
 
 	let vote_id = voteEle.id.replace("voteID_","");

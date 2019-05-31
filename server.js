@@ -99,7 +99,7 @@ app.post('/votes_form', (req, res)=>{
 })
 
 app.put('/votes_form', (req, res) => {
-	console.log(req, res);
+	console.log("Panda Invasion!", req, res);
 
 	db.collection(COLLECTION_NAME).findOneAndUpdate({
 		_id: req.body.id
@@ -110,7 +110,7 @@ app.put('/votes_form', (req, res) => {
 		}
 	}, {
 		//sort: {_id: -1},
-		//upsert: true
+		upsert: true
 	}, (err, result) => {
 		if (err) return res.send(err)
 		res.send(result)
