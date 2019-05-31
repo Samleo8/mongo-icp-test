@@ -113,7 +113,7 @@ let refreshVotes = (data)=>{
 	let voteEle = document.getElementById("voteID_"+data._id);
 
 	if(data.subject == "deleted"){
-		voteEle.parentElement.removeChild(voteEle);
+		voteEle.parentNode.removeChild(voteEle);
 		return;
 	}
 
