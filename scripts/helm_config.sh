@@ -6,7 +6,12 @@
 
 # NOTE: This is to be run on the MASTER NODE!
 # i.e. Do this AFTER you `vagrant ssh` into the master node
-cloudctl login -n default -u admin -p S3cure-icp-admin-passw0rd-default -a https://192.168.31.100:8443 --skip-ssl-validation
+SERVER="192.168.31.100"
+
+cloudctl login -n default -u admin -p S3cure-icp-admin-passw0rd-default -a https://$SERVER:8443 --skip-ssl-validation
+
+helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
+helm repo add ibm-mongodb-dev https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
 
 helm init
 helm repo update
