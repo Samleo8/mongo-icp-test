@@ -105,10 +105,9 @@ app.post('/votes_form', (req, res)=>{
 
 app.put('/votes_form', (req, res) => {
 	//console.log("Panda Invasion!", req, res);
-
-	console.log(req.id);
+	console.log(req.body);
 	db.collection(COLLECTION_NAME).findOneAndUpdate({
-		_id: ObjectId(req.body.id)
+		_id: ObjectId(req.body._id)
 	}, {
 		$set: {
 			name: req.body.name,
@@ -120,13 +119,14 @@ app.put('/votes_form', (req, res) => {
 		returnNewDocument: true
 	}, (err, result) => {
 		if (err) return res.send(err);
+		console.log(result);
 		res.send(result);
 	})
 })
 
 app.delete('/votes_form', (req, res) => {
 	db.collection(COLLECTION_NAME).findOneAndDelete({
-		_id: ObjectId(req.body.id)
+		_id: ObjectId(req.body._id)
 	},
 	(err, result) => {
 		if (err) return res.send(500, err)

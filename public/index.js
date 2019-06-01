@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 	let updateBtns = document.getElementsByClassName("change-name-btn");
 
 	for(i=0;i<updateBtns.length;i++){
-		updateBtns[i].addEventListener("click", (e)=>{ updateField(e, "animal", "panda"); });
-		updateBtns[i].addEventListener("touchend", (e)=>{ updateField(e, "animal", "panda"); });
+		updateBtns[i].addEventListener("click", (e)=>{ updateField(e, "name", "panda"); });
+		updateBtns[i].addEventListener("touchend", (e)=>{ updateField(e, "name", "panda"); });
 	}
 
 	updateBtns = document.getElementsByClassName("change-animal-btn");
@@ -62,12 +62,16 @@ let updateField = (e, field, value) => {
 		voteInfo[infoType] = infoEle[i].innerText;
 	}
 
-	if(voteInfo.hasOwnProperty(field) && voteInfo[field]===true){
+	console.log(voteInfo, field, value);
+
+	if(voteInfo.hasOwnProperty(field)){
 		voteInfo[field] = value;
 	}
 	else{
 		return;
 	}
+
+	console.log(voteInfo, field, value);
 
 	fetch('votes_form', {
 			method: 'put',
@@ -107,7 +111,7 @@ let deleteEntry = (e) => {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				'id': vote_id,
+				'_id': vote_id,
 				'name': vote_name,
 				'animal': vote_animal
 			})
