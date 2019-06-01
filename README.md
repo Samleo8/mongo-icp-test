@@ -16,9 +16,9 @@ This is a test client app that attempts to communicate with the MongoDB service/
 
 	You might need to wait (quite) a while before the MongoDB pod becomes available.
 
-4. Configure you client. Use the script in `scripts/configure_client.sh`, and edit the `SERVER` variable accordingly.
+4. Configure you client. ~Use the script in `scripts/configure_client.sh`, and edit the `SERVER` variable accordingly.~ You have to go into the GUI and on the top right corner click the Profile icon and follow the instructions after clicking **Configure Client**.
 
-4. Start the app with `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client (and actually also to you). The host and port variables are also automatically setup.
+5. Start the app with `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client (and actually also to you). The host and port variables are also automatically setup.
 
 	Other commands include `npm run dev` (testing) and `npm run noserver` (simulate with fake data)
 
