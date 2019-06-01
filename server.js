@@ -121,7 +121,6 @@ app.put('/votes_form', (req, res) => {
 	}, (err, result) => {
 		if (err) return res.send(err);
 		res.send(result);
-		console.log(result);
 	})
 })
 
