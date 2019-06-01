@@ -2,6 +2,11 @@
 
 This is a test client app that attempts to communicate with the MongoDB service/server in the IBM Private Cloud.
 
+## Installing the App
+
+Clone the repository using `git clone git@github.com:Samleo8/mongo-icp-test.git` or `git clone https://github.com/Samleo8/mongo-icp-test.git`
+
+
 ## Running the App
 
 0. Set up [IBM Cloud Private](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_1.2.0/kc_welcome_containers.html). I used Vagrant as per the instructions [here](https://github.com/IBM/deploy-ibm-cloud-private/blob/master/docs/deploy-vagrant.md).
