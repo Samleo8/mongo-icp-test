@@ -417,7 +417,8 @@ p.subtitle{
 	flex: 450px auto;
 
 	color:#1A4646;
-	background: rgb(180, 250, 150);
+	/*background: rgb(180, 250, 150);*/
+	background: #90c88e;
 }
 
 .vote .btn{
@@ -426,9 +427,5 @@ p.subtitle{
 	width: 120px;
 	height: 40px;
 	line-height: 40px;
-	margin:5px 10px;
-}
-
-.vote .penguin-invasion-btn{
-	width:140px;
+	margin:5px 2px;
 }

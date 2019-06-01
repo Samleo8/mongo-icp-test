@@ -20,50 +20,61 @@ document.addEventListener('DOMContentLoaded', ()=>{
 	}
 
 	//Handle Event Listeners for all update buttons
-	let updateBtns = document.getElementsByClassName("panda-invasion-btn");
+	let updateBtns = document.getElementsByClassName("change-name-btn");
 
 	for(i=0;i<updateBtns.length;i++){
-		updateBtns[i].addEventListener("click", (e)=>{ update_animal(e, "panda"); });
-		updateBtns[i].addEventListener("touchend", (e)=>{ update_animal(e, "panda"); });
+		updateBtns[i].addEventListener("click", (e)=>{ updateField(e, "animal", "panda"); });
+		updateBtns[i].addEventListener("touchend", (e)=>{ updateField(e, "animal", "panda"); });
 	}
 
-	updateBtns = document.getElementsByClassName("penguin-invasion-btn");
+	updateBtns = document.getElementsByClassName("change-animal-btn");
 
 	for(i=0;i<updateBtns.length;i++){
-		updateBtns[i].addEventListener("click", (e)=>{ update_animal(e, "penguin"); });
-		updateBtns[i].addEventListener("touchend", (e)=>{ update_animal(e, "penguin"); });
+		updateBtns[i].addEventListener("click", (e)=>{ updateField(e, "animal", "penguin"); });
+		updateBtns[i].addEventListener("touchend", (e)=>{ updateField(e, "animal", "penguin"); });
 	}
 
 	let deleteBtns = document.getElementsByClassName("delete-btn");
 
 	for(i=0;i<deleteBtns.length;i++){
-		deleteBtns[i].addEventListener("click", (e)=>{ delete_entry(e); });
-		deleteBtns[i].addEventListener("touchend", (e)=>{ delete_entry(e); });
+		deleteBtns[i].addEventListener("click", (e)=>{ deleteEntry(e); });
+		deleteBtns[i].addEventListener("touchend", (e)=>{ deleteEntry(e); });
 	}
 }, false);
 
 /*=======UPDATING THE DATABASE==========*/
-let update_animal = (e, animal) => {
+let updateField = (e, field, value) => {
+	let i,j;
+
 	e.stopPropagation();
 
 	let voteEle = e.target.parentElement.parentElement;
 
-	let vote_id = voteEle.id.replace("voteID_","");
-	let vote_name = voteEle.getElementsByTagName("span")[0].innerText;
-	let vote_animal = voteEle.getElementsByTagName("span")[1].innerText;
+	let voteInfo = {};
 
-	//console.log(vote_name+" voted for "+vote_animal+" (id: "+vote_id+") but that's gonna be changed to "+animal+". I love "+animal+"s, deal with it.");
+	voteInfo._id = voteEle.id.replace("voteID_","");
+
+	//Populate `voteInfo` variable with existing fields
+	let infoEle = voteEle.getElementsByTagName("span");
+	let infoType;
+	for(i=0;i<infoEle.length;i++){
+		infoType = infoEle[i].className.replace("vote_","");
+		voteInfo[infoType] = infoEle[i].innerText;
+	}
+
+	if(voteInfo.hasOwnProperty(field) && voteInfo[field]===true){
+		voteInfo[field] = value;
+	}
+	else{
+		return;
+	}
 
 	fetch('votes_form', {
 			method: 'put',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({
-				'id': vote_id,
-				'name': (Math.random()<0.5)?animal:vote_name,
-				'animal': (Math.random()<0.5)?animal:vote_animal
-			})
+			body: JSON.stringify(voteInfo)
 		})
 		.then(response => {
 			if (response.ok) return response.json()
@@ -76,7 +87,7 @@ let update_animal = (e, animal) => {
 		})
 }
 
-let delete_entry = (e) => {
+let deleteEntry = (e) => {
 	e.stopPropagation();
 
 	let r = confirm("Are you sure you want to delete? This process cannot be undone!");
