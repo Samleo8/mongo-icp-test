@@ -22,6 +22,25 @@ This is a test client app that attempts to communicate with the MongoDB service/
 
 	Other commands include `npm run dev` (testing) and `npm run noserver` (simulate with fake data)
 
+## Using the App
+The app aims to demonstrates 3 functions:
+1. Adding of entries into the database's collection:
+
+	*Enter your name and vote for your favorite animal!*
+	![Adding entries](screenshots/app1.png)
+
+2. Modifying specific entries
+
+	*You can then change your vote or your name by clicking on a button, and a pop-up will appear.*
+	![Modifying entries](screenshots/app2.png)
+
+3. Deleting specific entries
+
+	*You can then delete your vote by clicking on the delete button*
+
+	![Deleting entries](screenshots/app3.png)
+	![Entry deleted](screenshots/app4.png)
+
 ## Database Setup
 
 There seems to be 2 methods to setup the MongoDB service on IBM Cloud Private:
