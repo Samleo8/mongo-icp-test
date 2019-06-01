@@ -52,7 +52,7 @@ let update_animal = (e, animal) => {
 	let vote_name = voteEle.getElementsByTagName("span")[0].innerText;
 	let vote_animal = voteEle.getElementsByTagName("span")[1].innerText;
 
-	console.log(vote_name+" voted for "+vote_animal+" (id: "+vote_id+") but that's gonna be changed to "+animal+". I love "+animal+"s, deal with it.");
+	//console.log(vote_name+" voted for "+vote_animal+" (id: "+vote_id+") but that's gonna be changed to "+animal+". I love "+animal+"s, deal with it.");
 
 	fetch('votes_form', {
 			method: 'put',
@@ -79,13 +79,16 @@ let update_animal = (e, animal) => {
 let delete_entry = (e) => {
 	e.stopPropagation();
 
+	let r = confirm("Are you sure you want to delete? This process cannot be undone!");
+	if(!r) return;
+
 	let voteEle = e.target.parentElement.parentElement;
 
 	let vote_id = voteEle.id.replace("voteID_","");
 	let vote_name = voteEle.getElementsByTagName("span")[0].innerText;
 	let vote_animal = voteEle.getElementsByTagName("span")[1].innerText;
 
-	console.log("Deleting vote with id "+vote_id);
+	//console.log("Deleting vote with id "+vote_id);
 
 	fetch('votes_form', {
 			method: 'delete',
@@ -112,10 +115,8 @@ let delete_entry = (e) => {
 let refreshVotes = (data)=>{
 	let voteEle = document.getElementById("voteID_"+data._id);
 
-	console.log(data);
 	if(data.subject == "delete"){
 		voteEle.parentNode.removeChild(voteEle);
-		console.log(data);
 		return;
 	}
 
