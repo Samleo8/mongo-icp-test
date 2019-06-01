@@ -112,8 +112,9 @@ let delete_entry = (e) => {
 let refreshVotes = (data)=>{
 	let voteEle = document.getElementById("voteID_"+data._id);
 
-	if(data.subject == "deleted"){
+	if(data.subject == "delete"){
 		voteEle.parentNode.removeChild(voteEle);
+		console.log(data);
 		return;
 	}
 

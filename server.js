@@ -133,7 +133,7 @@ app.delete('/votes_form', (req, res) => {
 		if (err) return res.send(500, err)
 		res.send({
 			_id: req.body.id,
-			subject: 'deleted',
+			subject: 'delete',
 			message: 'Deleted vote with id '+req.body.id
 		})
 	})
