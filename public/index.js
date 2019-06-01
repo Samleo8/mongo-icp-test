@@ -23,15 +23,27 @@ document.addEventListener('DOMContentLoaded', ()=>{
 	let updateBtns = document.getElementsByClassName("change-name-btn");
 
 	for(i=0;i<updateBtns.length;i++){
-		updateBtns[i].addEventListener("click", (e)=>{ updateField(e, "name", "panda"); });
-		updateBtns[i].addEventListener("touchend", (e)=>{ updateField(e, "name", "panda"); });
+		updateBtns[i].addEventListener("click", (e)=>{
+			r = prompt("Change to what name?");
+			if(r) updateField(e, "name", r);
+		});
+		updateBtns[i].addEventListener("touchend", (e)=>{
+			r = prompt("Change to what name?");
+			if(r) updateField(e, "name", r);
+		});
 	}
 
 	updateBtns = document.getElementsByClassName("change-animal-btn");
 
 	for(i=0;i<updateBtns.length;i++){
-		updateBtns[i].addEventListener("click", (e)=>{ updateField(e, "animal", "penguin"); });
-		updateBtns[i].addEventListener("touchend", (e)=>{ updateField(e, "animal", "penguin"); });
+		updateBtns[i].addEventListener("click", (e)=>{
+			r = prompt("Change to what animal?");
+			if(r) updateField(e, "animal", r);
+		});
+		updateBtns[i].addEventListener("touchend", (e)=>{
+			r = prompt("Change to what animal?");
+			if(r) updateField(e, "animal", r);
+		});
 	}
 
 	let deleteBtns = document.getElementsByClassName("delete-btn");
@@ -98,12 +110,7 @@ let deleteEntry = (e) => {
 	if(!r) return;
 
 	let voteEle = e.target.parentElement.parentElement;
-
 	let vote_id = voteEle.id.replace("voteID_","");
-	let vote_name = voteEle.getElementsByTagName("span")[0].innerText;
-	let vote_animal = voteEle.getElementsByTagName("span")[1].innerText;
-
-	//console.log("Deleting vote with id "+vote_id);
 
 	fetch('votes_form', {
 			method: 'delete',
@@ -111,9 +118,7 @@ let deleteEntry = (e) => {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				'_id': vote_id,
-				'name': vote_name,
-				'animal': vote_animal
+				'_id': vote_id
 			})
 		})
 		.then(response => {

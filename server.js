@@ -116,10 +116,9 @@ app.put('/votes_form', (req, res) => {
 	}, {
 		//sort: {_id: -1},
 		//upsert: true,
-		returnNewDocument: true
+		returnOriginal: false
 	}, (err, result) => {
 		if (err) return res.send(err);
-		console.log(result);
 		res.send(result);
 	})
 })
@@ -131,7 +130,7 @@ app.delete('/votes_form', (req, res) => {
 	(err, result) => {
 		if (err) return res.send(500, err)
 		res.send({
-			_id: req.body.id,
+			_id: req.body._id,
 			subject: 'delete',
 			message: 'Deleted vote with id '+req.body.id
 		})

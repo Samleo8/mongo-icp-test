@@ -26,6 +26,9 @@
 			<span>Name</span> |
 			<span>Cuddly Animal</span>
 		</div>
+		<% if(votes.length<=0){ %>
+			<div class="font-large italics">No votes yet!</div>
+		<% } %>
 		<% for(var i=0; i<votes.length; i++) {%>
 		<div class="vote" id="voteID_<%= votes[i]._id %>">
 			<span class="vote_name"><%= votes[i].name %></span> |
@@ -36,7 +39,7 @@
 				<div class="btn change-animal-btn disableSelect">Change Vote</div>
 				<div class="btn delete-btn disableSelect">Delete</div>
 			</div>
-			<div class="italics font-small pad-top">Note: The respective invasions result in the name and/or vote randomly being replaced with the invader.</div>
+			<div class="italics font-small pad-top noDisplay">Note: The respective invasions result in the name and/or vote randomly being replaced with the invader.</div>
 		</div>
 		<% } %>
 	</div>
