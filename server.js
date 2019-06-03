@@ -28,7 +28,7 @@ const DB_PORT = process.env.MONGOPORT || "27017";
 const MONGODB_URL = "mongodb://"+DB_USERNAME+":"+DB_PASSWORD+"@"+DB_HOST_URL+":"+DB_PORT+"/"+DB_NAME;
 //const MONGODB_URL = "mongodb+srv://admin:<password>@pandas-ef9ir.mongodb.net/test?retryWrites=true";
 
-console.log("Connecting to "+MONGODB_URL+"...");
+console.log("Connecting to "+DB_HOST_URL+":"+DB_PORT+"/"+DB_NAME+"...");
 
 const client = new MongoClient(MONGODB_URL, { useNewUrlParser: true });
 let db;
