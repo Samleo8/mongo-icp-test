@@ -25,7 +25,9 @@ Clone the repository using `git clone git@github.com:Samleo8/mongo-icp-test.git`
 
 5. Start the app with `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client (and actually also to you). The host and port variables are also automatically setup.
 
-	Other commands include `npm run dev` (testing) and `npm run noserver` (simulate with fake data)
+	Other commands include `npm run dev` (testing) and `npm run noserver` (simulate with fake data). 
+
+	Using [mongo-express](https://github.com/mongo-express/mongo-express), you can also further manage the database and/or collections. More instructions [below](#managing-using-mongo-express).
 
 ## Using the App
 The app aims to demonstrates 3 functions:
@@ -150,6 +152,31 @@ The *Notes* portion in the screenshot below will help you to [configure the npm 
 ![Service configuration](screenshots/managing4.png)
 
 *NOTE: Also accessible from the **Network Access** > **Services** tab of the hamburger menu*
+
+## Managing using Mongo Express
+
+It is also possible to fully manage your database and their collections using [Mongo Express](https://github.com/mongo-express/mongo-express). 
+
+### Installation and Configuration
+
+Install `mongo-express` using `npm install -g mongo-express`.
+
+*If you want to change the local configuration:*
+
+Copy `/usr/local/lib/node_modules/mongo-express/config.default.js` into a new file called `/usr/local/lib/node_modules/mongo-express/config.js`. `/usr/local/lib` might be different, depending on where npm installs `mongo-express`.
+
+Change the settings in the `config.js` file accordingly.
+
+### Running the Mongo Express GUI Manager
+You can use this command to start the GUI manager. 
+```bash
+mongo-express -a -u mongo \
+	-p $(kubectl get secret --namespace default dbtest-ibm-mongodb-dev -o jsonpath='{.data.password}' | base64 --decode; echo) \
+	-H $(kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}') \
+	-P $(kubectl get svc --namespace default dbtest-ibm-mongodb-dev -o jsonpath='{.spec.ports[0].nodePort}')
+```
+
+Then go to `https://localhost:8081` (the default URL) and start using the GUI manager!
 
 ## Configuring the npm start script
 While you could just run `npm start` and see how it goes, you might want to modify the start script according to your setup above.
