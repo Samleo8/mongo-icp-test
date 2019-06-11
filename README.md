@@ -21,11 +21,11 @@ Clone the repository using `git clone git@github.com:Samleo8/mongo-icp-test.git`
 
 	You might need to wait (quite) a while before the MongoDB pod becomes available.
 
-4. Configure you client. ~Use the script in `scripts/configure_client.sh`, and edit the `SERVER` variable accordingly.~ You have to go into the GUI and on the top right corner click the Profile icon and follow the instructions after clicking **Configure Client**.
+4. Configure your client. ~Use the script in `scripts/configure_client.sh`, and edit the `SERVER` variable accordingly.~ You have to go into the GUI and on the top right corner click the Profile icon and follow the instructions after clicking **Configure Client**.
 
 5. Start the app with `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client (and actually also to you). The host and port variables are also automatically setup.
 
-	Other commands include `npm run dev` (testing) and `npm run noserver` (simulate with fake data). 
+	Other commands include `npm run dev` (testing) and `npm run noserver` (simulate with fake data).
 
 	Using [mongo-express](https://github.com/mongo-express/mongo-express), you can also further manage the database and/or collections. More instructions [below](#managing-using-mongo-express).
 
@@ -88,35 +88,25 @@ For example, my console is hosted at https://192.168.31.100:8443/console. If you
 6. Click **Install** and you should be done! You can now click on the *View Helm Release* button to view your release. Alternatively see [Managing your MongoDB Helm Release](#managing-your-mongodb-helm-release).
 
 ### Command Line
-*Sorry, I still haven't figured this out yet; I keep getting weird errors.*
+1. Using Vagrant, ssh into the **master node** using the `vagrant ssh` command.
 
-*Apparently, the fix doesn't work and instead screws up my helm API. If it works, tell me in the issues section.*
+2. Run the script in `scripts/config_helm.sh` to configure your helm. Do this in the **master node**.
 
-1. Before anything, you need to fix a stupid bug via the GUI. Follow the fix on Github [here](https://github.com/IBM/deploy-ibm-cloud-private/issues/80#issuecomment-364155516):
-```
-We were able to fix it: helm-api pings a server that does not exist anymore.
-
-Go to Workload > Deployments > [Search:] helm-api > Edit.
-Find and remove liveness-probe and readiness-probe
-Submit.
-```
-It is advised that you first make a backup of the helm-api JSON text that you are editing.
-
-2. Run the script in `scripts/config_helm.sh` to configure your helm. Do this in the **MASTER NODE** (i.e. if you used Vagrant, you need to `vagrant ssh` in and run it there).
+	This script aims to solve the error whereby the helm repo for `stable` was wrongly put as `https://kubernetes-charts.storage.googleapis.com` when it should have been `https://raw.githubusercontent.com/IBM/charts/master/repo/stable`
 
 3. In the master node, you can install the mongodb with name `dbtest` and password `password123` as below:
-```bash
-helm install --name dbtest --set service.type=NodePort,database.password=password123 stable/ibm-mongodb-dev
-```
+	```bash
+	helm install --name dbtest --set service.type=NodePort,database.password=password123 stable/ibm-mongodb-dev --tls
+	```
 
-More generally,
-```bash
-helm install --name <name-of-release> --set service.type=NodePort,database.name=<database-name(default:admin)>,database.password=<database-password> stable/ibm-mongodb-dev
-```
+	More generally,
+	```bash
+	helm install --name <name-of-release> --set service.type=NodePort,database.name=<database-name(default:admin)>,database.password=<database-password> stable/ibm-mongodb-dev
+	```
 
-Remember to set `service.type=NodePort`
+	Remember to set `service.type=NodePort`
 
-*If let's say at this point you are like me and your fix didn't work, go to `scripts/helm-api-backup.json` and copy over the backup, or better still, use the backup that you have.*
+	*NOTE: Because of issues with signing of the certificates, you need to add `--tls` to the end of every helm command*
 
 ## Managing your MongoDB Helm Release
 
@@ -155,7 +145,7 @@ The *Notes* portion in the screenshot below will help you to [configure the npm 
 
 ## Managing using Mongo Express
 
-It is also possible to fully manage your database and their collections using [Mongo Express](https://github.com/mongo-express/mongo-express). 
+It is also possible to fully manage your database and their collections using [Mongo Express](https://github.com/mongo-express/mongo-express).
 
 ### Installation and Configuration
 
@@ -168,7 +158,7 @@ Copy `/usr/local/lib/node_modules/mongo-express/config.default.js` into a new fi
 Change the settings in the `config.js` file accordingly.
 
 ### Running the Mongo Express GUI Manager
-You can use this command to start the GUI manager. 
+You can use this command to start the GUI manager.
 ```bash
 mongo-express -a -u mongo \
 	-p $(kubectl get secret --namespace default dbtest-ibm-mongodb-dev -o jsonpath='{.data.password}' | base64 --decode; echo) \
