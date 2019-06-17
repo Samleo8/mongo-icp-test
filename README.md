@@ -21,6 +21,10 @@ Clone the repository using `git clone git@github.com:Samleo8/mongo-icp-test.git`
 
 	You might need to wait (quite) a while before the MongoDB pod becomes available.
 
+	**PRO TIP:** A better way is to actually save an image of the vagrant machine using `vagrant snapshot save <name>` when all is up and running correctly. You can then use `vagrant snapshot restore <name>` and once the VM loads, all the configurations and services will be instantly loaded.
+
+	However, note that if you change the database and want to keep the databases' information, you will have to `vagrant snapshot save` before you shut the Vagrant VM (or computer) down.
+
 4. Configure your client. ~Use the script in `scripts/configure_client.sh`, and edit the `SERVER` variable accordingly.~ You have to go into the GUI and on the top right corner click the Profile icon and follow the instructions after clicking **Configure Client**.
 
 5. Start the app with `npm start`. The password will be automatically retrieved from `kubectl` and IBM Cloud secrets, and will remain hidden to the client (and actually also to you). The host and port variables are also automatically setup.
